@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Rainfall Prediction</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.ico' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<style>
+/* Full-screen background */
+body, html {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	background: url("{% static 'C:\Users\User\Music\RAIN_FALL\FRONTEND\static\images\02.jpg' %}") no-repeat center center fixed;
+	background-size: cover;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+/* Form container */
+.container-form {
+	background: rgba(0, 0, 0, 0.8);
+	padding: 50px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.9);
+	color: white;
+	width: 80%;
+	max-height: 110vh;
+	overflow-y: auto;
+	text-align: center;
+}
+
+/* Input fields */
+.input-field {
+	margin-bottom: 15px;
+	text-align: left;
+}
+
+.input-field label {
+	display: block;
+	font-weight: bold;
+	color: #fff;
+}
+
+.input-field input,
+.input-field select {
+	width: 100%;
+	padding: 12px;
+	margin-top: 5px;
+	border-radius: 5px;
+	border: none;
+	font-size: 16px;
+}
+
+/* Button */
+.btn-submit {
+	background: #00ff00;
+	color: black;
+	border: none;
+	padding: 12px 20px;
+	cursor: pointer;
+	border-radius: 5px;
+	width: 100%;
+	font-size: 18px;
+}
+
+.btn-submit:hover {
+	background: #00cc00;
+}
+	</style>
+</head>
+<body>
+    <div class="container-form">
+        <h2>Rainfall Prediction Using Machine Learning</h2>
+        <form action="output" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Numeric Inputs -->
+            <div class="input-field"><label for="MinTemp">MinTemp</label><input type="number" step="0.1" name="MinTemp" required></div>
+            <div class="input-field"><label for="MaxTemp">MaxTemp</label><input type="number" step="0.1" name="MaxTemp" required></div>
+            <div class="input-field"><label for="Rainfall">Rainfall</label><input type="number" step="0.1" name="Rainfall" required></div>
+            <div class="input-field"><label for="Evaporation">Evaporation</label><input type="number" step="0.1" name="Evaporation" required></div>
+            <div class="input-field"><label for="Sunshine">Sunshine</label><input type="number" step="0.1" name="Sunshine" required></div>
+
+            <!-- Categorical Inputs -->
+            <div class="input-field">
+                <label for="WindGustDir">WindGustDir</label>
+                <select name="WindGustDir" required>
+                    <option value="N">N</option><option value="NNE">NNE</option><option value="NE">NE</option>
+                    <option value="ENE">ENE</option><option value="E">E</option><option value="ESE">ESE</option>
+                    <option value="SE">SE</option><option value="SSE">SSE</option><option value="S">S</option>
+                    <option value="SSW">SSW</option><option value="SW">SW</option><option value="WSW">WSW</option>
+                    <option value="W">W</option><option value="WNW">WNW</option><option value="NW">NW</option>
+                    <option value="NNW">NNW</option>
+                </select>
+            </div>
+
+            <div class="input-field"><label for="WindGustSpeed">WindGustSpeed</label><input type="number" step="0.1" name="WindGustSpeed" required></div>
+
+            <div class="input-field">
+                <label for="WindDir9am">WindDir9am</label>
+                <select name="WindDir9am" required>
+                    <option value="N">N</option><option value="NNE">NNE</option><option value="NE">NE</option>
+                    <option value="ENE">ENE</option><option value="E">E</option><option value="ESE">ESE</option>
+                    <option value="SE">SE</option><option value="SSE">SSE</option><option value="S">S</option>
+                    <option value="SSW">SSW</option><option value="SW">SW</option><option value="WSW">WSW</option>
+                    <option value="W">W</option><option value="WNW">WNW</option><option value="NW">NW</option>
+                    <option value="NNW">NNW</option>
+                </select>
+            </div>
+
+            <div class="input-field">
+                <label for="WindDir3pm">WindDir3pm</label>
+                <select name="WindDir3pm" required>
+                    <option value="N">N</option><option value="NNE">NNE</option><option value="NE">NE</option>
+                    <option value="ENE">ENE</option><option value="E">E</option><option value="ESE">ESE</option>
+                    <option value="SE">SE</option><option value="SSE">SSE</option><option value="S">S</option>
+                    <option value="SSW">SSW</option><option value="SW">SW</option><option value="WSW">WSW</option>
+                    <option value="W">W</option><option value="WNW">WNW</option><option value="NW">NW</option>
+                    <option value="NNW">NNW</option>
+                </select>
+            </div>
+
+            <!-- More Numeric Inputs -->
+            <div class="input-field"><label for="WindSpeed9am">WindSpeed9am</label><input type="number" step="0.1" name="WindSpeed9am" required></div>
+            <div class="input-field"><label for="WindSpeed3pm">WindSpeed3pm</label><input type="number" step="0.1" name="WindSpeed3pm" required></div>
+            <div class="input-field"><label for="Humidity9am">Humidity9am</label><input type="number" step="0.1" name="Humidity9am" required></div>
+            <div class="input-field"><label for="Humidity3pm">Humidity3pm</label><input type="number" step="0.1" name="Humidity3pm" required></div>
+            <div class="input-field"><label for="Pressure9am">Pressure9am</label><input type="number" step="0.1" name="Pressure9am" required></div>
+            <div class="input-field"><label for="Pressure3pm">Pressure3pm</label><input type="number" step="0.1" name="Pressure3pm" required></div>
+            <div class="input-field"><label for="Cloud9am">Cloud9am</label><input type="number" step="0.1" name="Cloud9am" required></div>
+            <div class="input-field"><label for="Cloud3pm">Cloud3pm</label><input type="number" step="0.1" name="Cloud3pm" required></div>
+            <div class="input-field"><label for="Temp9am">Temp9am</label><input type="number" step="0.1" name="Temp9am" required></div>
+            <div class="input-field"><label for="Temp3pm">Temp3pm</label><input type="number" step="0.1" name="Temp3pm" required></div>
+
+            <!-- Algorithm Selection -->
+            <div class="input-field">
+                <label for="algo">Select Algorithm</label>
+                <select name="algo" id="algo" required>
+                    <option value="rf">Random Forest Classifier</option>
+                    <option value="xgb">XGBoost Classifier</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button class="btn-submit">Predict Rainfall</button>
+        </form>
+    </div>
+
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
